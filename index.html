@@ -1,20 +1,518 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bambaus - Take Control of Your Workflow</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bambaus - Streamline Your Workflow</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background: #f4f4f4; }
-        h1 { color: #2c3e50; }
-        p { color: #555; font-size: 18px; }
-        .cta { background: #3498db; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-size: 20px; }
-        .cta:hover { background: #2980b9; }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        line-height: 1.6;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .container {
+        max-width: 1200px;
+        padding: 0 20px;
+        margin: 0 auto;
+      }
+
+      /* Header Styles */
+      header {
+        background: #fff;
+        padding: 15px 0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        transition: all 0.3s ease;
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1a2b49;
+        text-decoration: none;
+        transition: transform 0.3s ease;
+      }
+
+      .logo:hover {
+        transform: scale(1.05);
+      }
+
+      nav {
+        display: flex;
+        align-items: center;
+        position: static;
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+      }
+
+      nav ul li {
+        margin-left: 25px;
+        opacity: 0;
+        transform: translateY(-20px);
+        animation: slideIn 0.5s ease forwards;
+      }
+
+      nav ul li:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      nav ul li:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      nav ul li:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+      nav ul li:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+
+      nav ul li a {
+        color: #64748b;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 1rem;
+        transition: color 0.3s ease, transform 0.3s ease;
+      }
+
+      nav ul li a:hover {
+        color: #3b82f6;
+        transform: translateY(-2px);
+      }
+
+      .hamburger {
+        display: none;
+        font-size: 1.5rem;
+        background: none;
+        border: none;
+        color: #1a2b49;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        z-index: 1001;
+      }
+
+      .hamburger:hover {
+        transform: rotate(90deg);
+      }
+
+      /* Hero Section */
+      .hero {
+        text-align: center;
+        padding: 80px 0;
+        animation: fadeIn 1s ease-in;
+      }
+
+      h1 {
+        font-size: 3.5rem;
+        color: #1a2b49;
+        margin-bottom: 20px;
+        font-weight: 700;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeUp 0.8s ease forwards;
+      }
+
+      .subtitle {
+        font-size: 1.25rem;
+        color: #64748b;
+        max-width: 600px;
+        margin: 0 auto 40px;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeUp 0.8s ease 0.2s forwards;
+      }
+
+      .cta-primary {
+        display: inline-block;
+        background: #3b82f6;
+        color: white;
+        padding: 16px 40px;
+        text-decoration: none;
+        border-radius: 50px;
+        font-size: 1.2rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        opacity: 0;
+        transform: scale(0.9);
+        animation: popIn 0.5s ease 0.4s forwards;
+      }
+
+      .cta-primary:hover {
+        background: #2563eb;
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      }
+
+      /* Features Section */
+      .features {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 30px;
+        margin: 60px 0;
+        padding: 0 20px;
+      }
+
+      .feature-card {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        width: 300px;
+        text-align: center;
+        opacity: 0;
+        transform: translateY(50px);
+        animation: cardRise 0.6s ease forwards;
+      }
+
+      .feature-card:nth-child(1) {
+        animation-delay: 0.2s;
+      }
+      .feature-card:nth-child(2) {
+        animation-delay: 0.4s;
+      }
+      .feature-card:nth-child(3) {
+        animation-delay: 0.6s;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      .feature-card h3 {
+        color: #1a2b49;
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+      }
+
+      .feature-card p {
+        color: #64748b;
+        font-size: 1rem;
+      }
+
+      /* Footer Styles */
+      footer {
+        background: #1a2b49;
+        color: #f5f7fa;
+        padding: 60px 0 20px;
+        margin-top: auto;
+      }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+        margin-bottom: 40px;
+      }
+
+      .footer-section {
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeUp 0.8s ease forwards;
+      }
+
+      .footer-section:nth-child(1) {
+        animation-delay: 0.2s;
+      }
+      .footer-section:nth-child(2) {
+        animation-delay: 0.4s;
+      }
+      .footer-section:nth-child(3) {
+        animation-delay: 0.6s;
+      }
+
+      .footer-section h4 {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+        color: #fff;
+      }
+
+      .footer-section ul {
+        list-style: none;
+      }
+
+      .footer-section ul li {
+        margin-bottom: 10px;
+      }
+
+      .footer-section ul li a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: color 0.3s ease, transform 0.3s ease;
+      }
+
+      .footer-section ul li a:hover {
+        color: #3b82f6;
+        transform: translateX(5px);
+      }
+
+      .social-links a {
+        display: inline-block;
+        margin-right: 15px;
+        font-size: 1.2rem;
+        color: #94a3b8;
+        transition: transform 0.3s ease;
+      }
+
+      .social-links a:hover {
+        color: #3b82f6;
+        transform: scale(1.2);
+      }
+
+      .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 20px;
+        text-align: center;
+        font-size: 0.9rem;
+        color: #94a3b8;
+        opacity: 0;
+        animation: fadeIn 1s ease 0.8s forwards;
+      }
+
+      /* Animations */
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes popIn {
+        from {
+          opacity: 0;
+          transform: scale(0.9);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      @keyframes cardRise {
+        from {
+          opacity: 0;
+          transform: translateY(50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes menuSlide {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Responsive Styles */
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2.5rem;
+        }
+        .subtitle {
+          font-size: 1rem;
+        }
+        .cta-primary {
+          padding: 12px 30px;
+          font-size: 1rem;
+        }
+        .feature-card {
+          width: 100%;
+          max-width: 100%;
+        }
+        footer {
+          padding: 40px 0 20px;
+        }
+
+        /* Header Responsive */
+        .hamburger {
+          display: block;
+        }
+
+        nav ul {
+          display: none;
+          flex-direction: column;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          background: #fff;
+          padding: 15px 0;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+          z-index: 999;
+        }
+
+        nav ul.active {
+          display: flex;
+          animation: menuSlide 0.3s ease forwards;
+        }
+
+        nav ul li {
+          margin: 10px 0;
+        }
+
+        nav ul li a {
+          font-size: 1.1rem;
+          display: block;
+          padding: 10px 20px;
+        }
+      }
     </style>
-</head>
-<body>
-    <h1>Welcome to Bambaus</h1>
-    <p>Take Control of Your Workflow.</p>
-    <a href="/bambaus-docs/" class="cta">Read Documentation</a>
-</body>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="container">
+        <div class="header-content">
+          <a href="/" class="logo">Bambaus</a>
+          <nav>
+            <button class="hamburger">☰</button>
+            <ul id="nav-menu">
+              <li><a href="#features">Features</a></li>
+              <li><a href="#pricing">Pricing</a></li>
+              <li><a href="/bambaus-docs/">Docs</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+      <section class="hero">
+        <h1>Welcome to Bambaus</h1>
+        <p class="subtitle">
+          Streamline your workflow with our powerful, intuitive tools designed
+          for modern teams.
+        </p>
+        <a href="/bambaus-docs/" class="cta-primary">Explore Documentation</a>
+      </section>
+
+      <div class="features" id="features">
+        <div class="feature-card">
+          <h3>Smart Automation</h3>
+          <p>Save time with intelligent workflow automation features.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Team Collaboration</h3>
+          <p>Work seamlessly with your team in real-time.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Custom Workflows</h3>
+          <p>Tailor solutions to fit your unique needs.</p>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h4>About Bambaus</h4>
+            <p>
+              Empowering teams with innovative workflow solutions since 2023.
+            </p>
+          </div>
+          <div class="footer-section">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="#features">Features</a></li>
+              <li><a href="#pricing">Pricing</a></li>
+              <li><a href="/bambaus-docs/">Documentation</a></li>
+              <li><a href="#support">Support</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4>Connect</h4>
+            <div class="social-links">
+              <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+              <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+              <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© 2025 Bambaus. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const hamburger = document.querySelector(".hamburger");
+        const navMenu = document.querySelector("#nav-menu");
+
+        if (!hamburger || !navMenu) {
+          console.error("Hamburger or nav menu not found!");
+          return;
+        }
+
+        hamburger.addEventListener("click", (e) => {
+          e.stopPropagation();
+          navMenu.classList.toggle("active");
+        });
+
+        document.addEventListener("click", (e) => {
+          if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+            navMenu.classList.remove("active");
+          }
+        });
+
+        const navLinks = document.querySelectorAll("#nav-menu a");
+        navLinks.forEach((link) => {
+          link.addEventListener("click", () => {
+            navMenu.classList.remove("active");
+          });
+        });
+      });
+    </script>
+  </body>
 </html>
